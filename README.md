@@ -1,9 +1,9 @@
 # Newsmap
 Combines Google Maps’ functionality with data from Google News in order to create a website that enables users to search for webarticles atop a map.
 <br><br>
-"Mashup", a problem set from the HarvardX CS50 course, provides the foundation code for this project. For more information, click [here](https://docs.cs50.net/problems/mashup/mashup.html).  
+"Mashup", a problem set from the HarvardX CS50 course, provides the foundation code for this project. For more information, click [here](https://docs.cs50.net/problems/mashup/mashup.html). If you wish to view the model solution, click [here](http://mashup.cs50.net/).  
 ## Background
-This project uses Google Maps' APIs, particularly **[Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/overview)**, to design the web app. The notation of "drawing on the map" (displaying webarticles) was partly accomplished using _[markers](https://developers.google.com/maps/documentation/javascript/markers)_.
+This project uses Google Maps' APIs, particularly **[Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/overview)**, to design the web app. The notion of "drawing on the map" (displaying webarticles) was partly accomplished using _[markers](https://developers.google.com/maps/documentation/javascript/markers)_.
 <br><br>
 The informational web articles themselves however, are fetched via **Google News**. It is noteworthy to mention that the articles' links and their respective titles were retrieved _without_ any "scraping". An [RSS](https://rss.com/blog/how-do-rss-feeds-work/) (Really Simple Syndication) feed was used instead.
 
@@ -23,4 +23,4 @@ The crux of the Newsmap, written in Python. _Articles_ is implemented in a manne
 ### helpers.py
 A helper file provided with the problem set material containing the _lookup_ function that queries the Google News articles for a particular geography (country specific: USA). 
 ### mashup.db
-Made a la **phpLiteAdmin**,  this database contains a table called _places_ with 12 fields  geographically label news articles.
+Made a la **phpLiteAdmin**, this database contains a table called _places_ with 12 fields that geographically labels news articles.
