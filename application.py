@@ -26,7 +26,7 @@ db = SQL("sqlite:///mashup.db")
 def index():
     """Render map."""
 
-    os.environ["API_KEY"] = "AIzaSyB0BqRay7Avt2vraNYHuFjsDo7H24yX_cA"
+    os.environ["API_KEY"] = "{Insert API_Key here}"
 
     if not os.environ.get("API_KEY"):
         raise RuntimeError("API_KEY not set")
