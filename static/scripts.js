@@ -63,16 +63,17 @@ $(function() {
  */
 function addMarker(place)
 {
-    AIzaSyAKifVQWkzmmB1ack3M2MfeSkNTqI5Qwew
 
 // display the lattitude and longitude
-    var myLatLng = new google.maps.LatLng(place["lattitude"], place["longitude"]);
-    
+    var myLatLng = new google.maps.LatLng(parseFloat(place.latitude), parseFloat(place.longitude));
+
     // import icon for marker
-    var icon = "http://maps.google.com/mapfiles/kml/pal2/icon31.png";
-    
+    var icon = {
+        url: "https://img.icons8.com/doodle/192/000000/news.png",
+        scaledSize: new google.maps.Size(50, 50),
+    }
     // instantiate marker
-    var marker = new google.maps.marker({
+    var marker = new google.maps.Marker({
        position: myLatLng,
        map: map,
        title: place["place_name"] + ", " + place["admin_name1"],
@@ -80,34 +81,29 @@ function addMarker(place)
        icon: icon,
     });
     // get articles for marker
-    $.getJSON(Flask.url_for("articles"), {geo: location.postal_code}, function(articles) {
-       
-       // check for news
-       if (data.length == 0)
-	    {
-		showInfo(marker, "No News");
-	    } 
-	    
-	    else
-	    {
-	        // start (unordered) list
-	        var article_headline = "<ul>";
-	        
-	        // iterate over each stored list
-            for (var i = 0; i < articles.length; i++)
-            {
-				article_headline += "<li><a target='_NEW' href='" + articles[i].link
-            	+ "'>" + articles[i].title + "</a></li>";
-            }
-	    }
-	    
-	    // close list
-	    article_headline += "</ul>";
-	    
-	    // eventlistener for clicks on marker
-	    google.maps.event.addListener(marker, 'click', function() {
-	        showInfo(marker, article_headline);
-	    });
+    marker.addListener("click", function () {
+
+        let parameters = {
+            geo: place.postal_code
+        }
+
+        let articles;
+
+        $.getJSON("/articles", parameters, function(data, textStatus, jqXHR) {
+            articles = data;
+            console.log(articles);
+
+            let articleList = '<ul class="article-list">';
+
+            for (i=0; i < articles.length; i++) {
+                articleList += `<li class="article-list-item"><a href="${articles[i].link}">${articles[i].title}</a></li>`
+            };
+            articleList += '</ul>';
+
+            let info = `<p>Recent news in ${place.place_name}:</p>` + articleList
+
+            showInfo(marker, info);
+        });
     });
     // add marker to global list
     markers.push(marker);
@@ -170,8 +166,8 @@ function configure()
     // re-enable ctrl- and right-clicking (and thus Inspect Element) on Google Map
     // https://chrome.google.com/webstore/detail/allow-right-click/hompjdfbfmmmgflfjdlnkohcplmboaeo?hl=en
     document.addEventListener("contextmenu", function(event) {
-        event.returnValue = true; 
-        event.stopPropagation && event.stopPropagation(); 
+        event.returnValue = true;
+        event.stopPropagation && event.stopPropagation();
         event.cancelBubble && event.cancelBubble();
     }, true);
 
@@ -205,7 +201,7 @@ function search(query, syncResults, asyncResults)
     };
     $.getJSON(Flask.url_for("search"), parameters)
     .done(function(data, textStatus, jqXHR) {
-     
+
         // call typeahead's callback with search results (i.e., places)
         asyncResults(data);
     })
@@ -249,7 +245,7 @@ function showInfo(marker, content)
 /**
  * Updates UI's markers.
  */
-function update() 
+function update()
 {
     // get map's bounds
     var bounds = map.getBounds();
