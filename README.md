@@ -1,5 +1,6 @@
 # Newsmap
 Combines Google Maps’ functionality with data from Google News in order to create a website that enables users to search for webarticles atop a map.
+![newsmap image example](./newsmap_image.png)
 <br><br>
 "Mashup", a problem set from the HarvardX CS50 course, provides the foundation code for this project. For more information, click [here](https://docs.cs50.net/problems/mashup/mashup.html). If you wish to view the model solution, click [here](http://mashup.cs50.net/).  
 ## Background
