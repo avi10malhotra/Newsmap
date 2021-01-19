@@ -25,6 +25,9 @@ db = SQL("sqlite:///mashup.db")
 @app.route("/")
 def index():
     """Render map."""
+
+    os.environ["API_KEY"] = "AIzaSyB0BqRay7Avt2vraNYHuFjsDo7H24yX_cA"
+
     if not os.environ.get("API_KEY"):
         raise RuntimeError("API_KEY not set")
     return render_template("index.html", key=os.environ.get("API_KEY"))
@@ -37,10 +40,10 @@ def articles():
     geo = request.args.get("geo")
     if not geo:
         raise RuntimeError("geo not set")
-    
+
     # search for articles via the lookup function
     articles = lookup(geo)
-    
+
     # return 5 such articles as JSON objects
     if len(articles) > 5:
         return jsonify([articles[0], articles[1], articles[2], articles[3], articles[4]])
@@ -50,14 +53,14 @@ def articles():
 @app.route("/search")
 def search():
     """Search for places that match query."""
-    
+
     #retrieve q and SQL's "wildcard" character from HTML form
     q = request.args.get("q") + "%"
-    
+
     # search the database for values matching user input
     place = db.execute("SELECT * FROM places WHERE postal_code LIKE :q OR \
                         place_name LIKE :q OR admin_name1 LIKE :q", q=q)
-    
+
     # return 10 such place as JSON objects
     if len(place) > 10:
         return jsonify([place[0], place[1], place[2], place[3], place[4],
